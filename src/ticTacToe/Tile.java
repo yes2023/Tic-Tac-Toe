@@ -9,7 +9,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class Tile extends StackPane {
-    private Text text = new Text();
+    public Text text = new Text();
 
     public Tile() {
         Rectangle border = new Rectangle(200, 200);
@@ -22,13 +22,16 @@ public class Tile extends StackPane {
         getChildren().addAll(border, text);
 
         setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                if (!turnX)
-                    return;
+            if (event.getButton() == MouseButton.PRIMARY && Game.playable) {
+                if (Game.turnX && text.getText()=="")
+                {
+                    drawX();
+                    Game.turnX = false;
+                    Game.checkState();
+                    Game.computerChoose();
+                    Game.checkState();
+                }
 
-                drawX();
-                turnX = false;
-                checkState();
             }
         });
     }
